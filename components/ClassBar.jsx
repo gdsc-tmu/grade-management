@@ -22,6 +22,10 @@ export default function() {
       return 0;
     }
 
+    if (moldedText==""){
+      return 0;
+    }
+
     fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ moldedText + ".json")
       .then((res) => {
         if (!res.ok){
@@ -58,7 +62,7 @@ export default function() {
     <div>
       <label htmlFor="code">授業コード : </label>
       <input type="text" value={text} id="code" name="code" onChange={handleChange}></input>
-      <button onClick={handleClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">決定</button>
+      <button onClick={handleClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">決定</button>
 
       <div>{classes}</div>
 
