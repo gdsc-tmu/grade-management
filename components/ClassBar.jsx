@@ -26,6 +26,11 @@ export default function() {
     console.log("in useEffect")
   },[classesInfo]);
 
+  const deleteClass = (idx) => {
+    setClasses(classes.filter((_, index ) => index !== idx));
+    setClassesInfo(classesInfo.filter((_, index ) => index !== idx));
+  }
+
   return (
     <div>
       <label htmlFor="code">授業コード : </label>
@@ -48,7 +53,7 @@ export default function() {
             term={classinfo.term} 
             day={classinfo.day} 
             period={classinfo.period} 
-            method={setClassesInfo} 
+            deleteMethod={deleteClass} 
             index={index} 
             />
         );
