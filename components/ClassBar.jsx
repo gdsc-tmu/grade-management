@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
+import { ChartBar } from "./Chart";
 import Class from "./Class";
 
-export default function() {
+export default function ClassBar() {
   const [text, setText] = useState("");
   const [classes, setClasses] = useState([]);
   const [classesInfo, setClassesInfo] = useState([]);
@@ -61,7 +62,7 @@ export default function() {
   return (
     <div>
       <label htmlFor="code">授業コード : </label>
-      <input type="text" value={text} id="code" name="code" onChange={handleChange}></input>
+      <input type="text" value={text} id="code" name="code" placeholder="授業コードを入力" onChange={handleChange} className=""></input>
       <button onClick={handleClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">決定</button>
 
       <div>{classes}</div>
@@ -85,6 +86,7 @@ export default function() {
             />
         );
       })}
+      <ChartBar/>
 
     </div>
   );
