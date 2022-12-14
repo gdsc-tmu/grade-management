@@ -14,8 +14,9 @@ export default function() {
 
   const handleClick = () => {
     // ToDo 重複・空欄・英小文字・fetch errorの処理追加
-    setClasses(classes => [...classes,text]);
-    fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ text + ".json")
+    const moldedText = text.trim().toUpperCase();
+    setClasses(classes => [...classes,moldedText]);
+    fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ moldedText + ".json")
       .then((res) => res.json())
       .then((data) => setClassesInfo([...classesInfo,data]));
     setText("");
