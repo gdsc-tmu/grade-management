@@ -39,8 +39,8 @@ export default function ClassBar() {
           setText("");
           throw new Error("無効な授業コードです！");
         }
-        setClassesInfo([...classesInfo,data]);
-        setClasses(classes => [...classes,moldedText]);
+        setClassesInfo(classesInfo => [data,...classesInfo]);
+        setClasses(classes => [moldedText,...classes]);
         setText("");
       })
       .catch((error) => alert(error));
