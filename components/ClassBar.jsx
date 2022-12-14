@@ -23,7 +23,10 @@ export default function() {
 
   useEffect(()=>{
     // ToDo グラフ表示用にclassInfoを集計してclassGroupに代入 → グラフコンポーネントにデータを渡す
+    // bebug
     console.log("in useEffect")
+    console.log(classes);
+    console.log(classesInfo);
   },[classesInfo]);
 
   const deleteClass = (idx) => {
