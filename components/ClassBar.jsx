@@ -13,7 +13,7 @@ export default function() {
   }, []);
 
   const handleClick = () => {
-    // ToDo 重複・fetch errorの処理追加
+    // ToDo 重複の処理追加
     const moldedText = text.trim().toUpperCase();
 
     fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ moldedText + ".json")
@@ -25,6 +25,7 @@ export default function() {
       })
       .then((data) => {
         if (data === null) {
+          setText("");
           throw new Error('Network response was not OK');
         }
         setClassesInfo([...classesInfo,data]);
