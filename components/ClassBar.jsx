@@ -13,13 +13,25 @@ export default function() {
   }, []);
 
   const handleClick = () => {
-    // ToDo 重複・空欄・英小文字・fetch errorの処理追加
+    // ToDo 重複・fetch errorの処理追加
     const moldedText = text.trim().toUpperCase();
-    setClasses(classes => [...classes,moldedText]);
+
     fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ moldedText + ".json")
-      .then((res) => res.json())
-      .then((data) => setClassesInfo([...classesInfo,data]));
-    setText("");
+      .then((res) => {
+        if (!res.ok){
+          throw new Error('Network response was not OK');
+        }
+        return res.json()
+      })
+      .then((data) => {
+        if (data === null) {
+          throw new Error('Network response was not OK');
+        }
+        setClassesInfo([...classesInfo,data]);
+        setClasses(classes => [...classes,moldedText]);
+        setText("");
+      })
+      .catch((error) => alert(error));
   };
 
   useEffect(()=>{
