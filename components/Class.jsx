@@ -16,7 +16,7 @@ export default function Class(props) {
       <div>{props.term}</div>
       <div>{props.day}</div>
       <div>{props.period}</div>
-      <button onClick={() => props.deleteMethod(props.index)}>削除</button>
+      <button onClick={() => props.deleteMethod(props.index)} className="bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-lg">削除</button>
     </div>
   );
 }
