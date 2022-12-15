@@ -86,8 +86,9 @@ export default function ClassBar() {
             />
         );
       })}
-      <ChartBar/>
-
+      <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
+      <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
+      <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
     </div>
   );
 }

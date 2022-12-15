@@ -18,42 +18,46 @@ ChartJS.register(
   Legend
   );
   
-export const ChartBar = () => {
+export const ChartBar = (props) => {
   const options = {
     indexAxis: 'y',
     responsive: true,
     plugins: {
       legend: {
+        display: false,
         position: "top"
       },
       title: {
-        display: true,
+        display: false,
         text: "Chart.js Bar Chart"
       }
     }
   };
 
-  const labels = ["January", "February", "March", "April", "May", "June", "July"];
-  const data1 = [12, 11, 14, 52, 14, 32, 36];
-  const data2 = [22, 31, 17, 32, 24, 62, 66];
+  const labels = props.label;
+  const data1 = props.data1;
+  const data2 = props.data2;
 
   const data = {
     labels, // x軸のラベルの配列
     datasets: [
       {
-        label: "Dataset 1", // 凡例
+        label: props.label[0], // 凡例
         data: data1,        // データの配列(labelsと要素数同じ)
-        backgroundColor: "rgba(255, 99, 132, 0.5)" // グラフの棒の色
+        backgroundColor: ["rgba(53, 162, 235, 0.5)",
+                          "rgba(255, 99, 132, 0.5)"] // グラフの棒の色
       },
-      {
-        label: "Dataset 2",
-        data: data2,
-        backgroundColor: "rgba(53, 162, 235, 0.5)"
-      }
+      // {
+      //   label: props.label[1],
+      //   data: data2,
+      //   backgroundColor: "rgba(255, 99, 132, 0.5)"
+      // }
     ]
   };
 
   return (
-    <Bar options={options} data={data} />
+    <div>
+      <Bar options={options} data={data} />
+    </div>
   );
 };
