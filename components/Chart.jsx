@@ -45,7 +45,10 @@ export const ChartBar = (props) => {
         label: props.label[0], // 凡例
         data: data1,        // データの配列(labelsと要素数同じ)
         backgroundColor: ["rgba(53, 162, 235, 0.5)",
-                          "rgba(255, 99, 132, 0.5)"] // グラフの棒の色
+                          "rgba(255, 99, 132, 0.5)"], // グラフの棒の色
+        borderColor: ["rgba(53, 162, 235, 1)",
+                      "rgba(255, 99, 132, 1)"], // グラフの棒の色
+        borderWidth: 2 // 枠線の太さ
       },
       // {
       //   label: props.label[1],
