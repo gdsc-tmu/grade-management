@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ChartBar } from "./Chart";
 import Class from "./Class";
+import Example from "./Example";
 
 export default function ClassBar() {
   const [text, setText] = useState("");
@@ -60,7 +61,8 @@ export default function ClassBar() {
   }
 
   return (
-    <div>
+    <div className="container mx-auto my-4 px-4">
+      <Example/>
       <label htmlFor="code">授業コード : </label>
       <input type="text" value={text} id="code" name="code" placeholder="授業コードを入力" onChange={handleChange} className=""></input>
       <button onClick={handleClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">決定</button>
