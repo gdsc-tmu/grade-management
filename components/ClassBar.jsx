@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import Card from "./Card";
 import { ChartBar } from "./Chart";
 import Class from "./Class";
 import Example from "./Example";
@@ -64,6 +65,7 @@ export default function ClassBar() {
   return (
     <>
       <Header/>
+      <Card/>
       <div className="container mx-auto my-4 px-4">
         <div className="w-80 mx-auto">
           <label htmlFor="code" className="block text-md font-medium text-gray-800">
