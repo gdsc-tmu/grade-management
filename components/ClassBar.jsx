@@ -65,9 +65,9 @@ export default function ClassBar() {
   return (
     <>
       <Header/>
-      <Card/>
+      
       <div className="container mx-auto my-4 px-4">
-        <div className="w-80 mx-auto">
+        <div className="w-80">
           <label htmlFor="code" className="block text-md font-medium text-gray-800">
             授業コード
           </label>
@@ -92,7 +92,7 @@ export default function ClassBar() {
 
         {classesInfo.map((classinfo,index) => {
           return (
-            <Class 
+            <Card 
               key={classinfo.code} 
               name={classinfo.name} 
               code={classinfo.code} 
@@ -109,6 +109,7 @@ export default function ClassBar() {
               />
           );
         })}
+
         <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
         <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
         <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
