@@ -67,9 +67,9 @@ export default function ClassBar() {
       <div className="container mx-auto my-4 px-4">
 
         <div className="flex">
-          <div className="w-1/3 mr-2 py-5 rounded-md bg-slate-100">
+          <div className="w-1/3 mr-2 py-5 rounded-md bg-slate-100 flex-col items-center">
 
-            <div className="w-80 mx-auto mb-3">
+            <div className="w-9/12 mx-auto mb-3">
               <label htmlFor="code" className="block text-md font-medium text-gray-800">
                 授業コード
               </label>
@@ -90,7 +90,7 @@ export default function ClassBar() {
               </div>
             </div>
 
-            <div className="flex-col justify-center">
+            <div className="w-10/12 mx-auto">
               {classesInfo.map((classinfo,index) => {
                 return (
                   <Card 
