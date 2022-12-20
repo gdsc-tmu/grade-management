@@ -9,7 +9,7 @@ export default function Header() {
           <span className="ml-3 text-xl">Gradable</span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <a className="mr-5 hover:text-gray-900">Kibako</a>
+          <a className="mr-5 hover:text-gray-900">Kibaco</a>
           <a className="mr-5 hover:text-gray-900">CampusSquare</a>
           <a className="mr-5 hover:text-gray-900">Syllabus</a>
           <a className="mr-5 hover:text-gray-900">About</a>
