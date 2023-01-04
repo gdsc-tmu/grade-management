@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import Card from "./Card";
 import { ChartBar } from "./Chart";
+import Card from "./Card";
 import Header from "./Header";
 import InputForm from "./InputForm";
 
