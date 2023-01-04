@@ -68,6 +68,7 @@ export default function ClassBar() {
       <div className="container mx-auto my-4 px-4">
 
         <div className="flex">
+
           <div className="w-1/3 mr-2 py-5 rounded-md bg-slate-100 flex-col items-center">
 
             <div className="w-9/12 mx-auto mb-3">
@@ -95,6 +96,7 @@ export default function ClassBar() {
                 );
               })}
             </div>
+
           </div>
           
           <div className="w-2/3">
@@ -104,6 +106,7 @@ export default function ClassBar() {
           </div>
 
         </div>
+        
       </div>
     </>
   );
