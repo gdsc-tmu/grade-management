@@ -177,9 +177,10 @@ export default function ClassBar() {
           </div>
           
           <div className="w-2/3">
-            <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
-            <ChartBar label={["取得単位数","必要単位数"]} data1={[15,12]} data2={[28,28]}/>
-            <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
+            <ChartBar label={["必要単位数","取得単位数"]} title="総単位数" data1={[30,totalClassCredit]}/>
+            <ChartBar label={["必要単位数","取得単位数"]} title="ゼミ" data1={[8,reseachClassCredit]}/>
+            <ChartBar label={["必要単位数","取得単位数"]} title="研究プロジェクト" data1={[2, projectClassCredit]}/>
+            <ChartBar label={["必要単位数","取得単位数"]} title="所属学域科目" data1={[12,majorClassCredit+Math.min(4,specialClassCredit)]}/>
           </div>
 
         </div>

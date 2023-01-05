@@ -28,15 +28,14 @@ export const ChartBar = (props) => {
         position: "top"
       },
       title: {
-        display: false,
-        text: "Chart.js Bar Chart"
+        display: true,
+        text: props.title
       }
     }
   };
 
   const labels = props.label;
   const data1 = props.data1;
-  const data2 = props.data2;
 
   const data = {
     labels, // x軸のラベルの配列
@@ -44,17 +43,12 @@ export const ChartBar = (props) => {
       {
         label: props.label[0], // 凡例
         data: data1,        // データの配列(labelsと要素数同じ)
-        backgroundColor: ["rgba(53, 162, 235, 0.5)",
-                          "rgba(255, 99, 132, 0.5)"], // グラフの棒の色
-        borderColor: ["rgba(53, 162, 235, 1)",
-                      "rgba(255, 99, 132, 1)"], // グラフの棒の色
+        backgroundColor: ["rgba(255, 99, 132, 0.5)",
+                          "rgba(53, 162, 235, 0.5)"], // グラフの棒の色
+        borderColor: ["rgba(255, 99, 132, 1)",
+                      "rgba(53, 162, 235, 1)"], // グラフの棒の色
         borderWidth: 2 // 枠線の太さ
       },
-      // {
-      //   label: props.label[1],
-      //   data: data2,
-      //   backgroundColor: "rgba(255, 99, 132, 0.5)"
-      // }
     ]
   };
 
