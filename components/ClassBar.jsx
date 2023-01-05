@@ -9,55 +9,131 @@ export default function ClassBar() {
   const [classes, setClasses] = useState([]);
   const [year, setYear] = useState("2022");
   const [classesInfo, setClassesInfo] = useState([]);
-  const [classGroup, setClassGroup] = useState({});
+
+  // 総単位数
+  const [totalClassCredit, setTotalClassCredit] = useState(0);
+  // 特別研究(M)Ⅰ~Ⅳ
+  const reseachClassCode = ["T0231","T0232","T0233","T0234"];
+  const [reseachClassCredit, setReseachClassCredit] = useState(0);
+  // 研究プロジェクト演習
+  const projectClassCode = ["T0004"];
+  const [projectClassCredit, setprojectClassCredit] = useState(0);
+  // 特論
+  const specialClassCode = ["T0010","T0011","T0012","T0013","T0014"];
+  const [specialClassCredit, setspecialClassCredit] = useState(0);
+  // 所属学域科目
+  const [majorClassCredit, setMajorClassCredit] = useState(0);
   
 
   const handleChange = useCallback(e => {
     setText(e.target.value);
   }, []);
 
-  const handleClick = () => {
-    const moldedText = text.trim().toUpperCase();
+  const fetchClassData = async() => {
+    const formatText = text.trim().toUpperCase();
 
-    if (classes.includes(moldedText)){
+    if (classes.includes(formatText)){
       alert("既に登録された授業です！");
       setText("");
       return 0;
     }
 
-    if (moldedText==""){
+    if (formatText==""){
       return 0;
     }
 
-    fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ moldedText + ".json")
-      .then((res) => {
-        if (!res.ok){
-          throw new Error("無効な授業コードです！");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data === null) {
-          setText("");
-          throw new Error("無効な授業コードです！");
-        }
-        setClassesInfo(classesInfo => [data,...classesInfo]);
-        setClasses(classes => [moldedText,...classes]);
-        setText("");
-      })
-      .catch((error) => alert(error));
+    const response = await fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ formatText + ".json");
+
+    const classDataJson = await response.json();
+
+    if(!response.ok){
+      throw new Error("無効な授業コードです！");
+    }
+    
+    else if(classDataJson === null){
+      setText("");
+      throw new Error("無効な授業コードです！");
+    }
+    
+    return classDataJson;
   };
 
+  const handleClick2 = async() => {
+    try{
+      const classDataJson = await fetchClassData();
+
+      setTotalClassCredit(prevNum => prevNum + Number(classDataJson.credit));
+
+      if(reseachClassCode.includes(classDataJson.code)){
+        setReseachClassCredit(prevNum => prevNum + Number(classDataJson.credit));
+      }
+
+      else if(projectClassCode.includes(classDataJson.code)){
+        setprojectClassCredit(prebNum => prebNum + Number(classDataJson.credit));
+      }
+
+      else if(specialClassCode.includes(classDataJson.code)){
+        setspecialClassCredit(prebNum => prebNum + Number(classDataJson.credit));
+      }
+
+      else if(classDataJson.type === "電子情報システム工学域"){
+        setMajorClassCredit(prebNum => prebNum + Number(classDataJson.credit));
+      }
+      
+      setClasses(classes => [text.trim().toUpperCase(),...classes]);
+      setClassesInfo(classesInfo => [classDataJson,...classesInfo]);
+      setText("");
+    } 
+    catch(error){
+      alert(error);
+    } 
+    finally{
+      console.log("fetch()終了")
+    }
+  }
+
+  // const handleClick = () => {
+  //   const moldedText = text.trim().toUpperCase();
+
+  //   if (classes.includes(moldedText)){
+  //     alert("既に登録された授業です！");
+  //     setText("");
+  //     return 0;
+  //   }
+
+  //   if (moldedText==""){
+  //     return 0;
+  //   }
+
+  //   fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ moldedText + ".json")
+  //     .then((res) => {
+  //       if (!res.ok){
+  //         throw new Error("無効な授業コードです！");
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       if (data === null) {
+  //         setText("");
+  //         throw new Error("無効な授業コードです！");
+  //       }
+  //       setClassesInfo(classesInfo => [data,...classesInfo]);
+  //       setClasses(classes => [moldedText,...classes]);
+  //       setText("");
+  //     })
+  //     .catch((error) => alert(error));
+  // };
+
   useEffect(()=>{
-    // ToDo グラフ表示用にclassInfoを集計してclassGroupに代入 → グラフコンポーネントにデータを渡す
-    // bebug
     console.log("in useEffect")
     console.log(classes);
     console.log(classesInfo);
     console.log(year);
+    console.log(totalClassCredit);
   },[classesInfo]);
 
   const deleteClass = (idx) => {
+    // ToDo 削除時に各卒業要件単位数も減らす
     setClasses(classes.filter((_, index ) => index !== idx));
     setClassesInfo(classesInfo.filter((_, index ) => index !== idx));
   }
@@ -73,7 +149,7 @@ export default function ClassBar() {
           <div className="w-1/3 mr-2 py-5 rounded-md bg-slate-100 flex-col items-center">
 
             <div className="w-9/12 mx-auto mb-3">
-              <InputForm text={text} handleClick={handleClick} handleChange={handleChange} setYear={setYear}/>
+              <InputForm text={text} handleClick={handleClick2} handleChange={handleChange} setYear={setYear}/>
             </div>
 
             <div className="w-10/12 mx-auto">
