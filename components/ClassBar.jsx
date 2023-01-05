@@ -7,6 +7,7 @@ import InputForm from "./InputForm";
 export default function ClassBar() {
   const [text, setText] = useState("");
   const [classes, setClasses] = useState([]);
+  const [year, setYear] = useState("2022");
   const [classesInfo, setClassesInfo] = useState([]);
   const [classGroup, setClassGroup] = useState({});
   
@@ -16,7 +17,6 @@ export default function ClassBar() {
   }, []);
 
   const handleClick = () => {
-    // ToDo 選択した年度のデータの取得・処理
     const moldedText = text.trim().toUpperCase();
 
     if (classes.includes(moldedText)){
@@ -54,6 +54,7 @@ export default function ClassBar() {
     console.log("in useEffect")
     console.log(classes);
     console.log(classesInfo);
+    console.log(year);
   },[classesInfo]);
 
   const deleteClass = (idx) => {
@@ -72,7 +73,7 @@ export default function ClassBar() {
           <div className="w-1/3 mr-2 py-5 rounded-md bg-slate-100 flex-col items-center">
 
             <div className="w-9/12 mx-auto mb-3">
-              <InputForm text={text} handleClick={handleClick} handleChange={handleChange}/>
+              <InputForm text={text} handleClick={handleClick} handleChange={handleChange} setYear={setYear}/>
             </div>
 
             <div className="w-10/12 mx-auto">
@@ -106,7 +107,7 @@ export default function ClassBar() {
           </div>
 
         </div>
-        
+
       </div>
     </>
   );
