@@ -36,6 +36,10 @@ export const ChartBar = (props) => {
 
   const labels = props.label;
   const data1 = props.data1;
+  const bgColor1 = ((props.data1[0] === props.data1[1]) ? "rgba(75, 192, 192, 0.5)" : "rgba(255, 99, 132, 0.5)");
+  const bgColor2 = ((props.data1[0] === props.data1[1]) ? "rgba(75, 192, 192, 0.5)" : "rgba(53, 162, 235, 0.5)");
+  const borderColor1 = ((props.data1[0] === props.data1[1]) ? "rgba(75, 192, 192, 1)" : "rgba(255, 99, 132, 1)");
+  const borderColor2 = ((props.data1[0] === props.data1[1]) ? "rgba(75, 192, 192, 1)" : "rgba(53, 162, 235, 1)");
 
   const data = {
     labels, // x軸のラベルの配列
@@ -43,10 +47,10 @@ export const ChartBar = (props) => {
       {
         label: props.label[0], // 凡例
         data: data1,        // データの配列(labelsと要素数同じ)
-        backgroundColor: ["rgba(255, 99, 132, 0.5)",
-                          "rgba(53, 162, 235, 0.5)"], // グラフの棒の色
-        borderColor: ["rgba(255, 99, 132, 1)",
-                      "rgba(53, 162, 235, 1)"], // グラフの棒の色
+        backgroundColor: [bgColor1,
+                          bgColor2], // グラフの棒の色
+        borderColor: [borderColor1,
+                      borderColor2], // グラフの棒の色
         borderWidth: 2 // 枠線の太さ
       },
     ]
