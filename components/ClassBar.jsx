@@ -101,9 +101,31 @@ export default function ClassBar() {
   },[classesInfo]);
 
   const deleteClass = (idx) => {
-    // ToDo 削除時に各卒業要件単位数も減らす
     setClasses(classes.filter((_, index ) => index !== idx));
-    setClassesInfo(classesInfo.filter((_, index ) => index !== idx));
+    
+    setClassesInfo(classesInfo.filter((element, index ) => {
+      if(index === idx){
+
+        setTotalClassCredit(prevNum => prevNum - Number(element.credit));
+
+        if(reseachClassCode.includes(element.code)){
+          setReseachClassCredit(prevNum => prevNum - Number(element.credit));
+        }
+  
+        else if(projectClassCode.includes(element.code)){
+          setprojectClassCredit(prebNum => prebNum - Number(element.credit));
+        }
+  
+        else if(specialClassCode.includes(element.code)){
+          setspecialClassCredit(prebNum => prebNum - Number(element.credit));
+        }
+  
+        else if(element.type === "電子情報システム工学域"){
+          setMajorClassCredit(prebNum => prebNum - Number(element.credit));
+        }
+      }
+      return index !== idx
+    }));
   }
 
   return (
