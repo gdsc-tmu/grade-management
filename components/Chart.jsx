@@ -36,10 +36,10 @@ export const ChartBar = (props) => {
 
   const labels = props.label;
   const data1 = props.data1;
-  const bgColor1 = ((props.data1[0] === props.data1[1]) ? "rgba(75, 192, 192, 0.5)" : "rgba(255, 99, 132, 0.5)");
-  const bgColor2 = ((props.data1[0] === props.data1[1]) ? "rgba(75, 192, 192, 0.5)" : "rgba(53, 162, 235, 0.5)");
-  const borderColor1 = ((props.data1[0] === props.data1[1]) ? "rgba(75, 192, 192, 1)" : "rgba(255, 99, 132, 1)");
-  const borderColor2 = ((props.data1[0] === props.data1[1]) ? "rgba(75, 192, 192, 1)" : "rgba(53, 162, 235, 1)");
+  const bgColor1 = ((props.data1[0] <= props.data1[1]) ? "rgba(75, 192, 192, 0.5)" : "rgba(255, 99, 132, 0.5)");
+  const bgColor2 = ((props.data1[0] <= props.data1[1]) ? "rgba(75, 192, 192, 0.5)" : "rgba(53, 162, 235, 0.5)");
+  const borderColor1 = ((props.data1[0] <= props.data1[1]) ? "rgba(75, 192, 192, 1)" : "rgba(255, 99, 132, 1)");
+  const borderColor2 = ((props.data1[0] <= props.data1[1]) ? "rgba(75, 192, 192, 1)" : "rgba(53, 162, 235, 1)");
 
   const data = {
     labels, // x軸のラベルの配列
