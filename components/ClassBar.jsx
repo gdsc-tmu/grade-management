@@ -92,38 +92,6 @@ export default function ClassBar() {
     }
   }
 
-  // const handleClick = () => {
-  //   const moldedText = text.trim().toUpperCase();
-
-  //   if (classes.includes(moldedText)){
-  //     alert("既に登録された授業です！");
-  //     setText("");
-  //     return 0;
-  //   }
-
-  //   if (moldedText==""){
-  //     return 0;
-  //   }
-
-  //   fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ moldedText + ".json")
-  //     .then((res) => {
-  //       if (!res.ok){
-  //         throw new Error("無効な授業コードです！");
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       if (data === null) {
-  //         setText("");
-  //         throw new Error("無効な授業コードです！");
-  //       }
-  //       setClassesInfo(classesInfo => [data,...classesInfo]);
-  //       setClasses(classes => [moldedText,...classes]);
-  //       setText("");
-  //     })
-  //     .catch((error) => alert(error));
-  // };
-
   useEffect(()=>{
     console.log("in useEffect")
     console.log(classes);
