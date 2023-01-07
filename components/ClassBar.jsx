@@ -1,63 +1,131 @@
 import { useCallback, useEffect, useState } from "react";
-import Card from "./Card";
 import { ChartBar } from "./Chart";
+import Card from "./Card";
 import Header from "./Header";
+import InputForm from "./InputForm";
 
 export default function ClassBar() {
   const [text, setText] = useState("");
   const [classes, setClasses] = useState([]);
+  const [year, setYear] = useState("2022");
   const [classesInfo, setClassesInfo] = useState([]);
-  const [classGroup, setClassGroup] = useState({});
+
+  // 総単位数
+  const [totalClassCredit, setTotalClassCredit] = useState(0);
+  // 特別研究(M)Ⅰ~Ⅳ
+  const reseachClassCode = ["T0231","T0232","T0233","T0234"];
+  const [reseachClassCredit, setReseachClassCredit] = useState(0);
+  // 研究プロジェクト演習
+  const projectClassCode = ["T0004"];
+  const [projectClassCredit, setprojectClassCredit] = useState(0);
+  // 特論
+  const specialClassCode = ["T0010","T0011","T0012","T0013","T0014"];
+  const [specialClassCredit, setspecialClassCredit] = useState(0);
+  // 所属学域科目
+  const [majorClassCredit, setMajorClassCredit] = useState(0);
   
 
   const handleChange = useCallback(e => {
     setText(e.target.value);
   }, []);
 
-  const handleClick = () => {
-    // ToDo 選択した年度のデータの取得・処理
-    const moldedText = text.trim().toUpperCase();
+  const fetchClassData = async() => {
+    const formatText = text.trim().toUpperCase();
 
-    if (classes.includes(moldedText)){
+    if (classes.includes(formatText)){
       alert("既に登録された授業です！");
       setText("");
       return 0;
     }
 
-    if (moldedText==""){
+    if (formatText==""){
       return 0;
     }
 
-    fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ moldedText + ".json")
-      .then((res) => {
-        if (!res.ok){
-          throw new Error("無効な授業コードです！");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data === null) {
-          setText("");
-          throw new Error("無効な授業コードです！");
-        }
-        setClassesInfo(classesInfo => [data,...classesInfo]);
-        setClasses(classes => [moldedText,...classes]);
-        setText("");
-      })
-      .catch((error) => alert(error));
+    const response = await fetch("https://tmu-syllabus-default-rtdb.firebaseio.com/2022/"+ formatText + ".json");
+
+    const classDataJson = await response.json();
+
+    if(!response.ok){
+      throw new Error("無効な授業コードです！");
+    }
+    
+    else if(classDataJson === null){
+      setText("");
+      throw new Error("無効な授業コードです！");
+    }
+    
+    return classDataJson;
   };
 
+  const handleClick2 = async() => {
+    try{
+      const classDataJson = await fetchClassData();
+
+      setTotalClassCredit(prevNum => prevNum + Number(classDataJson.credit));
+
+      if(reseachClassCode.includes(classDataJson.code)){
+        setReseachClassCredit(prevNum => prevNum + Number(classDataJson.credit));
+      }
+
+      else if(projectClassCode.includes(classDataJson.code)){
+        setprojectClassCredit(prebNum => prebNum + Number(classDataJson.credit));
+      }
+
+      else if(specialClassCode.includes(classDataJson.code)){
+        setspecialClassCredit(prebNum => prebNum + Number(classDataJson.credit));
+      }
+
+      else if(classDataJson.type === "電子情報システム工学域"){
+        setMajorClassCredit(prebNum => prebNum + Number(classDataJson.credit));
+      }
+      
+      setClasses(classes => [text.trim().toUpperCase(),...classes]);
+      setClassesInfo(classesInfo => [classDataJson,...classesInfo]);
+      setText("");
+    } 
+    catch(error){
+      alert(error);
+    } 
+    finally{
+      console.log("fetch()終了")
+    }
+  }
+
   useEffect(()=>{
-    // ToDo グラフ表示用にclassInfoを集計してclassGroupに代入 → グラフコンポーネントにデータを渡す
-    // bebug
     console.log("in useEffect")
     console.log(classes);
     console.log(classesInfo);
+    console.log(year);
+    console.log(totalClassCredit);
   },[classesInfo]);
 
   const deleteClass = (idx) => {
     setClasses(classes.filter((_, index ) => index !== idx));
-    setClassesInfo(classesInfo.filter((_, index ) => index !== idx));
+    
+    setClassesInfo(classesInfo.filter((element, index ) => {
+      if(index === idx){
+
+        setTotalClassCredit(prevNum => prevNum - Number(element.credit));
+
+        if(reseachClassCode.includes(element.code)){
+          setReseachClassCredit(prevNum => prevNum - Number(element.credit));
+        }
+  
+        else if(projectClassCode.includes(element.code)){
+          setprojectClassCredit(prebNum => prebNum - Number(element.credit));
+        }
+  
+        else if(specialClassCode.includes(element.code)){
+          setspecialClassCredit(prebNum => prebNum - Number(element.credit));
+        }
+  
+        else if(element.type === "電子情報システム工学域"){
+          setMajorClassCredit(prebNum => prebNum - Number(element.credit));
+        }
+      }
+      return index !== idx
+    }));
   }
 
   return (
@@ -67,30 +135,14 @@ export default function ClassBar() {
       <div className="container mx-auto my-4 px-4">
 
         <div className="flex">
-          <div className="w-1/3 mr-2 py-5 rounded-md bg-slate-100">
 
-            <div className="w-80 mx-auto mb-3">
-              <label htmlFor="code" className="block text-md font-medium text-gray-800">
-                授業コード
-              </label>
-              <div className="flex items-center justify-between mt-1">
-                <div className="relative rounded-md shadow-sm">
-                  <input type="text" value={text} onChange={handleChange} name="code" id="code" className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="A0000"/>
-                  <div className="absolute inset-y-0 right-0 flex items-center">
-                    <label htmlFor="select-year" className="sr-only">
-                      select-year
-                    </label>
-                    <select id="select-year" name="select-year" className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                      <option>2022</option>
-                      <option>2021</option>
-                    </select>
-                  </div>
-                </div>
-                <button onClick={handleClick} className="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 ml-2 rounded-lg">追加</button>
-              </div>
+          <div className="w-1/3 mr-2 py-5 rounded-md bg-slate-100 flex-col items-center">
+
+            <div className="w-9/12 mx-auto mb-3">
+              <InputForm text={text} handleClick={handleClick2} handleChange={handleChange} setYear={setYear}/>
             </div>
 
-            <div className="flex-col justify-center">
+            <div className="w-10/12 mx-auto">
               {classesInfo.map((classinfo,index) => {
                 return (
                   <Card 
@@ -111,15 +163,18 @@ export default function ClassBar() {
                 );
               })}
             </div>
+
           </div>
           
           <div className="w-2/3">
-            <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
-            <ChartBar label={["取得単位数","必要単位数"]} data1={[15,12]} data2={[28,28]}/>
-            <ChartBar label={["取得単位数","必要単位数"]} data1={[20,12]} data2={[28,28]}/>
+            <ChartBar label={["必要単位数","取得単位数"]} title={"総単位数"} data1={[30,totalClassCredit]}/>
+            <ChartBar label={["必要単位数","取得単位数"]} title={"ゼミ"} data1={[8,reseachClassCredit]}/>
+            <ChartBar label={["必要単位数","取得単位数"]} title={"研究プロジェクト"} data1={[2, projectClassCredit]}/>
+            <ChartBar label={["必要単位数","取得単位数"]} title={"所属学域科目"} data1={[12,majorClassCredit+Math.min(4,specialClassCredit)]}/>
           </div>
 
         </div>
+
       </div>
     </>
   );
